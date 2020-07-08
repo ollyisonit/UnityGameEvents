@@ -1,4 +1,4 @@
-﻿using dninosores.UnityValueAccessors;
+﻿using dninosores.UnityAccessors;
 
 namespace dninosores.UnityGameEvents
 {
@@ -7,7 +7,7 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class FloatInterpolator : AbstractFloatInterpolator
 	{
-		public AnyFloatValueAccessor value;
-		protected override ValueAccessor<float> interpolatedValue => value;
+		public AnyFloatAccessor value;
+		protected override Accessor<float> interpolatedValue => value;
 	}
 }

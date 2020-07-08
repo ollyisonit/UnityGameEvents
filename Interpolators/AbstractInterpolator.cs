@@ -1,5 +1,5 @@
 ﻿using dninosores.UnityEditorAttributes;
-using dninosores.UnityValueAccessors;
+using dninosores.UnityAccessors;
 using System.Collections;
 using UnityEngine;
 
@@ -23,7 +23,7 @@ namespace dninosores.UnityGameEvents
 		/// <summary>
 		/// Accessor for value to interpolate.
 		/// </summary>
-		protected abstract ValueAccessor<T> interpolatedValue { get; }
+		protected abstract Accessor<T> interpolatedValue { get; }
 
 		protected override bool InstantInternal => time == 0;
 

@@ -1,4 +1,4 @@
-﻿using dninosores.UnityValueAccessors;
+﻿using dninosores.UnityAccessors;
 
 namespace dninosores.UnityGameEvents
 {
