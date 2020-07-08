@@ -14,16 +14,30 @@ namespace dninosores.UnityGameEvents
 		/// Should the interpolation override the current value of the object being interpolated with a new starting value?
 		/// </summary>
 		public bool overrideStart;
+		/// <summary>
+		/// Start value for interpolation.
+		/// </summary>
 		[ConditionalHide("overrideStart", true)]
 		public T start;
+		/// <summary>
+		/// End value for interpolation.
+		/// </summary>
 		public T end;
+		/// <summary>
+		/// Curve to use for easing interpolation.
+		/// </summary>
 		public AnimationCurve curve;
+		/// <summary>
+		/// How many seconds the interpolation should take.
+		/// </summary>
 		public float time;
 
 		/// <summary>
 		/// Accessor for value to interpolate.
 		/// </summary>
-		protected abstract Accessor<T> interpolatedValue { get; }
+		protected abstract Accessor<T> interpolatedValue {
+			get;
+		}
 
 		protected override bool InstantInternal => time == 0;
 
@@ -60,6 +74,7 @@ namespace dninosores.UnityGameEvents
 
 		/// <summary>
 		/// Linear interpolation between start and end values where fraction=0 returns start and fraction=1 returns end.
+		/// For fraction values less than zero or greater than one, a value will be extrapolated based on the start and end values.
 		/// </summary>
 		protected abstract T Interpolate(T start, T end, float fraction);
 		

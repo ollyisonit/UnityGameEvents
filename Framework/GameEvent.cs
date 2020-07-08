@@ -38,7 +38,7 @@ namespace dninosores.UnityGameEvents
 		/// <summary>
 		/// Should the GameEvent be executed in a single frame? If so, use RunInstant(), otherwise use Run()
 		/// </summary>
-		public bool Instant => InstantInternal || !waitForCompletion;
+		public bool Instant => !isActiveAndEnabled || InstantInternal || !waitForCompletion;
 
 
 		/// <summary>
@@ -112,13 +112,16 @@ namespace dninosores.UnityGameEvents
 		/// </summary>
 		public void RunInstant()
 		{
-			if (!InstantInternal && !waitForCompletion)
+			if (isActiveAndEnabled)
 			{
-				StartCoroutine(Run());
-			}
-			else
-			{
-				ForceRunInstant();
+				if (!InstantInternal && !waitForCompletion)
+				{
+					StartCoroutine(Run());
+				}
+				else
+				{
+					ForceRunInstant();
+				}
 			}
 		}
 
