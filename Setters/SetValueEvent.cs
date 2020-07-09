@@ -18,8 +18,10 @@ namespace dninosores.UnityGameEvents
 
 		protected override IEnumerator RunInternal()
 		{
-			valueAccessor.Value = value;
+			valueAccessor.Value = GetTargetValue(valueAccessor.Value, value);
 			yield break;
 		}
+
+		protected abstract T GetTargetValue(T originalValue, T targetValue);
 	}
 }

@@ -5,7 +5,7 @@ namespace dninosores.UnityGameEvents
 	/// <summary>
 	/// Sets a float value using an Accessor.
 	/// </summary>
-	class SetFloat : SetValueEvent<float>
+	class SetFloat : AddMultiplySetValueEvent<float>
 	{
 		public AnyFloatAccessor accessor;
 		protected override Accessor<float> valueAccessor => accessor;

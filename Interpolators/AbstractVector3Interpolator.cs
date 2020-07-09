@@ -13,6 +13,12 @@ namespace dninosores.UnityGameEvents
 			return InterpolateVector3(start, end, fraction);
 		}
 
+		protected override Vector3 Multiply(Vector3 a, Vector3 b)
+		{
+			return new Vector3(a.x * b.x, a.y * b.y, a.z * b.z);
+		}
+
+
 		public static Vector3 InterpolateVector3(Vector3 start, Vector3 end, float fraction)
 		{
 			return (end - start) * (fraction) + start;

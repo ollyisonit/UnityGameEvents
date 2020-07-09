@@ -17,5 +17,10 @@ namespace dninosores.UnityGameEvents
 		{
 			return (end - start) * (fraction) + start;
 		}
+
+		protected override Color Multiply(Color a, Color b)
+		{
+			return new Color(a.r * b.r, a.g * b.g, a.b * b.b, a.a * b.a);
+		}
 	}
 }

@@ -2,6 +2,9 @@
 using dninosores.UnityAccessors;
 using System.Collections;
 using UnityEngine;
+using System;
+using System.Reflection;
+using System.Collections.Generic;
 
 namespace dninosores.UnityGameEvents
 {
@@ -10,6 +13,17 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public abstract class AbstractInterpolator<T> : GameEvent
 	{
+		/// <summary>
+		/// Should the interpolation happen relative to the object's starting value or set the value absolutely?
+		/// </summary>
+		public bool relative;
+		public enum RelativeMode
+		{
+			Add,
+			Multiply
+		}
+		[ConditionalHide("relative", true)]
+		public RelativeMode relativeMode;
 		/// <summary>
 		/// Should the interpolation override the current value of the object being interpolated with a new starting value?
 		/// </summary>
@@ -51,24 +65,83 @@ namespace dninosores.UnityGameEvents
 		}
 
 
+		/// <summary>
+		/// Sums two values of type T together.
+		/// </summary>
+		protected virtual T Sum(T a, T b)
+		{
+			Type type = typeof(T);
+			MethodInfo sum = type.GetMethod("op_Addition", new Type[] { typeof(T), typeof(T) });
+			if (sum == null)
+			{
+				throw new NotImplementedException("No suitible addition operator found! You need to " +
+					"override the Multiply method for " + typeof(T));
+			}
+			return (T) sum.Invoke(a, new object[] { a, b });
+		}
+
+
+		/// <summary>
+		/// Multiplies two values of type T together.
+		/// </summary>
+		protected virtual T Multiply(T a, T b)
+		{
+			Type type = typeof(T);
+			MethodInfo sum = type.GetMethod("op_Multiply", new Type[] { typeof(T), typeof(T) });
+			if (sum == null)
+			{
+				throw new NotImplementedException("No suitible multiplication operator found! You need to " +
+					"override the Multiply method for " + typeof(T));
+			}
+			return (T)sum.Invoke(a, new object[] { a, b });
+		}
+
+
 		protected override IEnumerator RunInternal()
 		{
 			float t = 0;
+			T originalValue = interpolatedValue.GetValue();
 
 			if (!overrideStart)
 			{
-				start = interpolatedValue.GetValue();
+				if (relative)
+				{
+					start = default;
+				}
+				else
+				{
+					start = interpolatedValue.GetValue();
+				}
 			}
 
 			while (t < time)
 			{
-				interpolatedValue.SetValue(Interpolate(start, end, curve.Evaluate(t / time)));
+				SetInterpolatedValue(originalValue, Interpolate(start, end, curve.Evaluate(t / time)));
 				yield return null;
 				t += Time.deltaTime;
 			}
 
-			interpolatedValue.SetValue(Interpolate(start, end, curve.Evaluate(1)));
-		
+			SetInterpolatedValue(originalValue, Interpolate(start, end, curve.Evaluate(1)));
+		}
+
+		private void SetInterpolatedValue(T originalValue, T targetValue)
+		{
+			if (relative)
+			{
+				switch (relativeMode)
+				{
+					case RelativeMode.Add:
+						interpolatedValue.Value = Sum(originalValue, targetValue);
+						break;
+					case RelativeMode.Multiply:
+						interpolatedValue.Value = Multiply(originalValue, targetValue);
+						break;
+				}
+			}
+			else
+			{
+				interpolatedValue.Value = targetValue;
+			}
 		}
 
 
