@@ -10,6 +10,25 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class GameEventSequence : GameEvent
 	{
+		/// <summary>
+		/// Should events that are attached to the same object as this one be added to the event sequence?
+		/// Only events that appear after this object will be added.
+		/// </summary>
+		[Tooltip("Should events that are attached to the same object as this one be added to the event sequence?" +
+			"Only events that appear after this object will be added.")]
+		public bool executeOnParent = true;
+
+		protected virtual List<GameEvent> GetContainedEvents()
+		{
+			List<GameEvent> childEvents = new List<GameEvent>();
+			if (executeOnParent)
+			{
+				childEvents.AddRange(GetAttachedEvents(this));
+			}
+			childEvents.AddRange(GetChildEvents(transform, recursionMode));
+			return childEvents;
+		}
+
 		public enum RecursionMode
 		{
 			TopLevelOnly,
@@ -18,13 +37,19 @@ namespace dninosores.UnityGameEvents
 		}
 
 		public RecursionMode recursionMode;
-		protected override bool InstantInternal => GetChildEvents(transform, recursionMode).All(e => e.Instant);
+
+		protected override bool InstantInternal => GetContainedEvents().All(e => e.Instant);
 
 		protected override IEnumerator RunInternal()
 		{
-			foreach (GameEvent e in GetChildEvents(transform, recursionMode))
+			List<GameEvent> childEvents = GetContainedEvents();
+			foreach (GameEvent e in childEvents)
 			{
-				if (e.Instant)
+				e.SetParentEvent(this);
+			}
+			foreach (GameEvent e in childEvents)
+			{
+				if (e.Instant || fastForwarding)
 				{
 					e.RunInstant();
 				}
@@ -35,7 +60,39 @@ namespace dninosores.UnityGameEvents
 			}
 		}
 
-		private static List<GameEvent> GetChildEvents(Transform t, RecursionMode mode)
+
+		/// <summary>
+		/// Gets all GameEvents after given GameEvent that are attached to the same GameObject.
+		/// </summary>
+		public static List<GameEvent> GetAttachedEvents(GameEvent g)
+		{
+			List<GameEvent> childEvents = new List<GameEvent>();
+
+				bool afterThis = false;
+				foreach (GameEvent e in g.GetComponents<GameEvent>())
+				{
+					if (!afterThis)
+					{
+						if (e == g)
+						{
+							afterThis = true;
+						}
+					}
+					else
+					{
+						childEvents.Add(e);
+					}
+				}
+			return childEvents;
+
+		}
+
+
+		/// <summary>
+		/// Gets all GameEvents that are attached to children of the given transform according to
+		/// the given RecursionMode.
+		/// </summary>
+		public static List<GameEvent> GetChildEvents(Transform t, RecursionMode mode)
 		{
 			List<GameEvent> events = new List<GameEvent>();
 

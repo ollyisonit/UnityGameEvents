@@ -38,8 +38,13 @@ namespace dninosores.UnityGameEvents
 		/// <summary>
 		/// Should the GameEvent be executed in a single frame? If so, use RunInstant(), otherwise use Run()
 		/// </summary>
-		public bool Instant => !isActiveAndEnabled || InstantInternal || !waitForCompletion;
+		public bool Instant => !isActiveAndEnabled || InstantInternal || !waitForCompletion || fastForwarding;
 
+		
+		/// <summary>
+		/// Is the game event currently fast-forwarding?
+		/// </summary>
+		protected bool fastForwarding;
 
 		/// <summary>
 		/// Should the RunInternal() method be executed in a single frame?
@@ -163,6 +168,7 @@ namespace dninosores.UnityGameEvents
 		public virtual void StartFastForward()
 		{
 			ParentEvent?.StartFastForward();
+			fastForwarding = true;
 		}
 
 
@@ -172,6 +178,7 @@ namespace dninosores.UnityGameEvents
 		public virtual void StopFastForward()
 		{
 			ParentEvent?.StopFastForward();
+			fastForwarding = false;
 		}
 	}
 }

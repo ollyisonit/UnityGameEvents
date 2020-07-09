@@ -1,4 +1,5 @@
 ﻿using dninosores.UnityEditorAttributes;
+using System;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -8,7 +9,7 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public abstract class GameEventTrigger : MonoBehaviour
 	{
-		[Tooltip("If this box is checked, the GameEventTrigger will automatically reference all other GameEvents attached to this object")]
+		[Tooltip("If this box is checked, the GameEventTrigger will automatically reference other GameEvents attached to this object")]
 		public bool automatic;
 
 		public enum TriggerMode
@@ -17,14 +18,20 @@ namespace dninosores.UnityGameEvents
 			Multiple
 		}
 
-		[ConditionalHide("automatic", false)]
 		public TriggerMode triggerMode;
+
+		[Serializable]
+		public class ArrayContainer
+		{
+			public GameEvent[] gameEvents;
+		}
+
+		[ConditionalHide(new string[] { "automatic", "triggerMode" }, new object[] { false, TriggerMode.Multiple })]
+		public ArrayContainer gameEvents;
 
 		[ConditionalHide(new string[] { "automatic", "triggerMode" }, new object[] { false, TriggerMode.Single })]
 		public GameEvent gameEvent;
 
-		[ConditionalHide(new string[] { "automatic", "triggerMode" }, new object[] { false, TriggerMode.Multiple })]
-		public GameEvent[] gameEvents;
 
 
 		/// <summary>
@@ -34,7 +41,7 @@ namespace dninosores.UnityGameEvents
 		{
 			automatic = true;
 			triggerMode = TriggerMode.Single;
-			gameEvents = new GameEvent[0];
+			gameEvents.gameEvents = new GameEvent[0];
 		}
 
 
@@ -47,9 +54,18 @@ namespace dninosores.UnityGameEvents
 			{
 				if (automatic)
 				{
-					foreach (GameEvent e in GetComponents<GameEvent>())
+					switch (triggerMode)
 					{
-						e.StartRunning();
+
+						case TriggerMode.Multiple:
+							foreach (GameEvent e in GetComponents<GameEvent>())
+							{
+								e.StartRunning();
+							}
+							break;
+						case TriggerMode.Single:
+							GetComponent<GameEvent>().StartRunning();
+							break;
 					}
 				}
 				else
@@ -60,7 +76,7 @@ namespace dninosores.UnityGameEvents
 							gameEvent?.StartRunning();
 							break;
 						case TriggerMode.Multiple:
-							foreach (GameEvent e in gameEvents)
+							foreach (GameEvent e in gameEvents.gameEvents)
 							{
 								e.StartRunning();
 							}
