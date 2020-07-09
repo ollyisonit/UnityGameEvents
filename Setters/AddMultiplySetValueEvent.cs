@@ -11,9 +11,9 @@ namespace dninosores.UnityGameEvents
 	{
 		public enum WriteMode
 		{
-			Overwrite,
-			Add,
-			Multiply
+			Overwrite = 0,
+			Add = 1,
+			Multiply = 2
 		}
 		public WriteMode writeMode;
 

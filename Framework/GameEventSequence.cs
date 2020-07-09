@@ -31,9 +31,9 @@ namespace dninosores.UnityGameEvents
 
 		public enum RecursionMode
 		{
-			OnlyIfEmpty,
-			TopLevelOnly,
-			Complete
+			OnlyIfEmpty = 0,
+			TopLevelOnly = 1,
+			Complete = 2
 		}
 
 		public RecursionMode recursionMode;

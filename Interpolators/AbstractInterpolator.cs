@@ -19,8 +19,8 @@ namespace dninosores.UnityGameEvents
 		public bool relative;
 		public enum RelativeMode
 		{
-			Add,
-			Multiply
+			Add = 0,
+			Multiply = 1
 		}
 		[ConditionalHide("relative", true)]
 		public RelativeMode relativeMode;

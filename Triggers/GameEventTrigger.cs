@@ -14,8 +14,8 @@ namespace dninosores.UnityGameEvents
 
 		public enum TriggerMode
 		{
-			Single,
-			Multiple
+			Single = 0,
+			Multiple = 1
 		}
 
 		public TriggerMode triggerMode;

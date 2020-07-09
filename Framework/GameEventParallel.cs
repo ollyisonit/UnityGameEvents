@@ -14,8 +14,8 @@ namespace dninosores.UnityGameEvents
 	{
 		public enum ParallelMode
 		{
-			OnSelf,
-			InChildren
+			OnSelf = 0,
+			InChildren = 1
 		}
 
 		public ParallelMode mode;
