@@ -47,17 +47,32 @@ namespace dninosores.UnityGameEvents
 			{
 				e.SetParentEvent(this);
 			}
+
 			foreach (GameEvent e in childEvents)
 			{
-				if (e.Instant || fastForwarding)
+				if (fastForwarding)
 				{
-					e.RunInstant();
+					yield return e.FastForward();
 				}
 				else
 				{
-					yield return e.Run();
+					if (e.Instant)
+					{
+						e.RunInstant();
+					}
+					else
+					{
+						yield return e.Run();
+					}
 				}
 			}
+		}
+
+
+		public override IEnumerator FastForward()
+		{
+			fastForwarding = true;
+			yield return RunInternal();
 		}
 
 

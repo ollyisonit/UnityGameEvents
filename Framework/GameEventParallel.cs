@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using dninosores.UnityEditorAttributes;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -17,8 +19,13 @@ namespace dninosores.UnityGameEvents
 		}
 
 		public ParallelMode mode;
+		[ConditionalHide("mode", ParallelMode.InChildren)]
+		public GameEventSequence.RecursionMode recursionMode;
 
 
+		/// <summary>
+		/// Exposes fields in GameEventSequence so that different instances of it can effectively be run at the same time.
+		/// </summary>
 		private class InternalSequence : GameEventSequence
 		{
 			public List<GameEvent> GameEvents;
@@ -36,7 +43,21 @@ namespace dninosores.UnityGameEvents
 		}
 
 
-		protected override bool InstantInternal => false;
+		protected override bool InstantInternal
+		{
+			get
+			{
+				switch (mode)
+				{
+					case ParallelMode.OnSelf:
+						return GameEventSequence.GetAttachedEvents(this).All(e => e.Instant);
+					case ParallelMode.InChildren:
+						return GameEventSequence.GetChildEvents(transform, recursionMode).All(e => e.Instant);
+					default:
+						throw new NotImplementedException("Case not found for " + mode);
+				}
+			}
+		}
 
 
 		protected override IEnumerator RunInternal()
@@ -48,8 +69,10 @@ namespace dninosores.UnityGameEvents
 
 					foreach (Transform child in transform)
 					{
-						List<GameEvent> events = GameEventSequence.GetChildEvents(child,
-							GameEventSequence.RecursionMode.OnlyIfEmpty);
+						List<GameEvent> events = new List<GameEvent>();
+						events.AddRange(child.GetComponents<GameEvent>());
+						events.AddRange(GameEventSequence.GetChildEvents(child,
+							recursionMode));
 						InternalSequence sequence = child.gameObject.AddComponent<InternalSequence>();
 						sequence.GameEvents = events;
 						sequence.SetFastForward(base.fastForwarding);
@@ -68,12 +91,46 @@ namespace dninosores.UnityGameEvents
 					break;
 				case ParallelMode.OnSelf:
 					List<GameEvent> attachedEvents = GameEventSequence.GetAttachedEvents(this);
+					foreach (GameEvent e in attachedEvents)
+					{
+						e.SetParentEvent(this);
+					}
 					yield return RunUntilCompletion(attachedEvents);
 					break;
 
 			}
 
 		}
+
+
+		public override IEnumerator FastForward()
+		{
+			fastForwarding = true;
+			yield return RunInternal();	
+		}
+		
+
+		public override void ForceRunInstant()
+		{
+			switch (mode)
+			{
+				case ParallelMode.InChildren:
+					foreach (GameEvent e in GameEventSequence.GetChildEvents(transform, recursionMode))
+					{
+						e.SetParentEvent(this);
+						e.ForceRunInstant();
+					}
+					break;
+				case ParallelMode.OnSelf:
+					foreach (GameEvent e in GameEventSequence.GetAttachedEvents(this))
+					{
+						e.SetParentEvent(this);
+						e.ForceRunInstant();
+					}
+					break;
+			}
+		}
+
 
 		private IEnumerator RunUntilCompletion(List<InternalSequence> events)
 		{
@@ -83,6 +140,10 @@ namespace dninosores.UnityGameEvents
 				if (s.Instant)
 				{
 					s.RunInstant();
+				}
+				else if (fastForwarding)
+				{
+					yield return s.FastForward();
 				}
 				else
 				{
@@ -102,9 +163,6 @@ namespace dninosores.UnityGameEvents
 			}
 		}
 
-
-
-
 		private IEnumerator RunUntilCompletion(List<GameEvent> events)
 		{
 			int finishedCount = 0;
@@ -114,7 +172,10 @@ namespace dninosores.UnityGameEvents
 				{
 					s.RunInstant();
 				}
-				else
+				else if (fastForwarding)
+				{
+					yield return s.FastForward();
+				}
 				{
 					yield return s.Run();
 				}

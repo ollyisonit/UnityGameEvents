@@ -38,7 +38,7 @@ namespace dninosores.UnityGameEvents
 		/// <summary>
 		/// Should the GameEvent be executed in a single frame? If so, use RunInstant(), otherwise use Run()
 		/// </summary>
-		public bool Instant => !isActiveAndEnabled || InstantInternal || !waitForCompletion || fastForwarding;
+		public bool Instant => !isActiveAndEnabled || InstantInternal || !waitForCompletion;
 
 		
 		/// <summary>
@@ -123,7 +123,7 @@ namespace dninosores.UnityGameEvents
 				{
 					StartCoroutine(Run());
 				}
-				else
+				else if (!InProgress)
 				{
 					ForceRunInstant();
 				}
@@ -132,14 +132,31 @@ namespace dninosores.UnityGameEvents
 
 
 		/// <summary>
-		/// Runs entire Run() Coroutine in a single frame. Override if doing that would lead to an infinite loop.
+		/// Runs entire Run() Coroutine in a single frame.
 		/// </summary>
 		public virtual void ForceRunInstant()
 		{
-			IEnumerator routine = Run();
+			ForceRunInstant(Run());
+		}
+
+
+		/// <summary>
+		/// Runs entire coroutine in a single frame. In order to run nested coroutines, yield the IEnumerator directly;
+		/// yielding StartCoroutine() will start the coroutine but not wait for completion.
+		/// </summary>
+		/// <param name="routine"></param>
+		public virtual void ForceRunInstant(IEnumerator routine)
+		{
 			while (routine.MoveNext())
 			{
-				// Runs through entire coroutine all at once
+				if (routine.Current is IEnumerator nested)
+				{
+					ForceRunInstant(nested);
+				}
+				if (routine.Current is Coroutine rout)
+				{
+					
+				}
 			}
 		}
 
@@ -179,6 +196,18 @@ namespace dninosores.UnityGameEvents
 		{
 			ParentEvent?.StopFastForward();
 			fastForwarding = false;
+		}
+
+
+		/// <summary>
+		/// Fast-forwards GameEvent. This is similar to ForceRunInstant(), but allows for a return to normal execution partway through.
+		/// This should only be used for testing.
+		/// </summary>
+		/// <returns></returns>
+		public virtual IEnumerator FastForward()
+		{
+			ForceRunInstant();
+			yield break;
 		}
 	}
 }
