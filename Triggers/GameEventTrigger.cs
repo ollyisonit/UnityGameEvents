@@ -41,6 +41,7 @@ namespace dninosores.UnityGameEvents
 		{
 			automatic = true;
 			triggerMode = TriggerMode.Single;
+			gameEvents = new ArrayContainer();
 			gameEvents.gameEvents = new GameEvent[0];
 		}
 

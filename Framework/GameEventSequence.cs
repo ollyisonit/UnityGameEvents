@@ -31,8 +31,8 @@ namespace dninosores.UnityGameEvents
 
 		public enum RecursionMode
 		{
-			TopLevelOnly,
 			OnlyIfEmpty,
+			TopLevelOnly,
 			Complete
 		}
 
@@ -118,7 +118,7 @@ namespace dninosores.UnityGameEvents
 				events.AddRange(childEvents);
 				if (mode == RecursionMode.Complete || (mode == RecursionMode.OnlyIfEmpty && childEvents.Length == 0))
 				{
-					events.AddRange(GetChildEvents(t, mode));
+					events.AddRange(GetChildEvents(child, mode));
 				}
 			}
 

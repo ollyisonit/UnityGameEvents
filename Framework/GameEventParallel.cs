@@ -76,6 +76,7 @@ namespace dninosores.UnityGameEvents
 						InternalSequence sequence = child.gameObject.AddComponent<InternalSequence>();
 						sequence.GameEvents = events;
 						sequence.SetFastForward(base.fastForwarding);
+						sequences.Add(sequence);
 					}
 
 					yield return RunUntilCompletion(sequences);
