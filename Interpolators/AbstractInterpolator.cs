@@ -27,6 +27,7 @@ namespace dninosores.UnityGameEvents
 		/// <summary>
 		/// Should the interpolation override the current value of the object being interpolated with a new starting value?
 		/// </summary>
+		[Header("Curve Settings")]
 		public bool overrideStart;
 		/// <summary>
 		/// Start value for interpolation.

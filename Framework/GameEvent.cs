@@ -161,7 +161,7 @@ namespace dninosores.UnityGameEvents
 		/// yielding StartCoroutine() will start the coroutine but not wait for completion.
 		/// </summary>
 		/// <param name="routine"></param>
-		public virtual void ForceRunInstant(IEnumerator routine)
+		public void ForceRunInstant(IEnumerator routine)
 		{
 			while (routine.MoveNext())
 			{

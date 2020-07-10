@@ -5,7 +5,7 @@ using UnityEngine;
 namespace dninosores.UnityGameEvents
 {
 	/// <summary>
-	/// Triggers a GameEvent to start based on some condition in the scene.
+	/// Triggers a GameEvent to start based on some condition in the scene by calling StartEvent() at appropriate time.
 	/// </summary>
 	public abstract class GameEventTrigger : MonoBehaviour
 	{
