@@ -18,6 +18,16 @@ namespace dninosores.UnityGameEvents
 			"Only events that appear after this object will be added.")]
 		public bool executeOnParent = true;
 
+		/// <summary>
+		/// Has the event been cancelled?
+		/// </summary>
+		private bool cancelled;
+
+		/// <summary>
+		/// The GameEvent that is currently running
+		/// </summary>
+		private GameEvent currentlyRunning;
+
 		protected virtual List<GameEvent> GetContainedEvents()
 		{
 			List<GameEvent> childEvents = new List<GameEvent>();
@@ -42,6 +52,7 @@ namespace dninosores.UnityGameEvents
 
 		protected override IEnumerator RunInternal()
 		{
+			cancelled = false;
 			List<GameEvent> childEvents = GetContainedEvents();
 			foreach (GameEvent e in childEvents)
 			{
@@ -50,6 +61,11 @@ namespace dninosores.UnityGameEvents
 
 			foreach (GameEvent e in childEvents)
 			{
+				currentlyRunning = e;
+				if (cancelled)
+				{
+					break;
+				}
 				if (fastForwarding)
 				{
 					yield return e.FastForward();
@@ -123,6 +139,13 @@ namespace dninosores.UnityGameEvents
 			}
 
 			return events;
+		}
+
+
+		public override void Stop()
+		{
+			cancelled = true;
+			currentlyRunning?.Stop();
 		}
 	}
 

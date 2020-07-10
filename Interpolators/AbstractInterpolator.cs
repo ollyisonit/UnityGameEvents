@@ -47,6 +47,12 @@ namespace dninosores.UnityGameEvents
 		public float time;
 
 		/// <summary>
+		/// Has the interpolation been cancelled?
+		/// </summary>
+		private bool cancelled;
+
+
+		/// <summary>
 		/// Accessor for value to interpolate.
 		/// </summary>
 		protected abstract Accessor<T> interpolatedValue {
@@ -99,6 +105,7 @@ namespace dninosores.UnityGameEvents
 
 		protected override IEnumerator RunInternal()
 		{
+			cancelled = false;
 			float t = 0;
 			T originalValue = interpolatedValue.GetValue();
 
@@ -114,15 +121,24 @@ namespace dninosores.UnityGameEvents
 				}
 			}
 
-			while (t < time)
+			while (t < time && !cancelled)
 			{
 				SetInterpolatedValue(originalValue, Interpolate(start, end, curve.Evaluate(t / time)));
 				yield return null;
 				t += Time.deltaTime;
 			}
-
-			SetInterpolatedValue(originalValue, Interpolate(start, end, curve.Evaluate(1)));
+			if (!cancelled)
+			{
+				SetInterpolatedValue(originalValue, Interpolate(start, end, curve.Evaluate(1)));
+			}
 		}
+
+
+		public override void Stop()
+		{
+			cancelled = true;
+		}
+
 
 		private void SetInterpolatedValue(T originalValue, T targetValue)
 		{

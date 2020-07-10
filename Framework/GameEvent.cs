@@ -36,6 +36,12 @@ namespace dninosores.UnityGameEvents
 
 
 		/// <summary>
+		/// Should the event play itself when the game starts?
+		/// </summary>
+		public bool playOnStart = false;
+
+
+		/// <summary>
 		/// Should the GameEvent be executed in a single frame? If so, use RunInstant(), otherwise use Run()
 		/// </summary>
 		public bool Instant => !isActiveAndEnabled || InstantInternal || !waitForCompletion;
@@ -52,6 +58,15 @@ namespace dninosores.UnityGameEvents
 		protected abstract bool InstantInternal
 		{
 			get;
+		}
+
+
+		protected virtual void Start()
+		{
+			if (playOnStart)
+			{
+				StartRunning();
+			}
 		}
 
 
@@ -88,6 +103,7 @@ namespace dninosores.UnityGameEvents
 			ParentEvent = null;
 			InProgress = false;
 			waitForCompletion = true;
+			playOnStart = false;
 		}
 
 
@@ -177,6 +193,12 @@ namespace dninosores.UnityGameEvents
 		{
 			ParentEvent = gameEvent;
 		}
+
+
+		/// <summary>
+		/// Immediately stops the GameEvent, leaving all affected objects in their current state.
+		/// </summary>
+		public abstract void Stop();
 
 
 		/// <summary>

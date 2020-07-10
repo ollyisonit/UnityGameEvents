@@ -42,6 +42,11 @@ namespace dninosores.UnityGameEvents
 			}
 		}
 
+		/// <summary>
+		/// The GameEvents that are currently running in parallel.
+		/// </summary>
+		private List<GameEvent> currentlyRunning;
+		private List<InternalSequence> currentlyRunningSequences;
 
 		protected override bool InstantInternal
 		{
@@ -78,7 +83,7 @@ namespace dninosores.UnityGameEvents
 						sequence.SetFastForward(base.fastForwarding);
 						sequences.Add(sequence);
 					}
-
+					currentlyRunningSequences = sequences;
 					yield return RunUntilCompletion(sequences);
 
 					if (sequences.Any(s => s.FastForwarding))
@@ -92,6 +97,7 @@ namespace dninosores.UnityGameEvents
 					break;
 				case ParallelMode.OnSelf:
 					List<GameEvent> attachedEvents = GameEventSequence.GetAttachedEvents(this);
+					currentlyRunning = attachedEvents;
 					foreach (GameEvent e in attachedEvents)
 					{
 						e.SetParentEvent(this);
@@ -191,6 +197,24 @@ namespace dninosores.UnityGameEvents
 			while (finishedCount < events.Count)
 			{
 				yield return null;
+			}
+		}
+
+		public override void Stop()
+		{
+			if (currentlyRunning != null)
+			{
+				foreach (GameEvent e in currentlyRunning)
+				{
+					e.Stop();
+				}
+			}
+			if (currentlyRunningSequences != null)
+			{
+				foreach (InternalSequence s in currentlyRunningSequences)
+				{
+					s.Stop();
+				}
 			}
 		}
 	}

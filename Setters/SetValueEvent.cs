@@ -23,5 +23,11 @@ namespace dninosores.UnityGameEvents
 		}
 
 		protected abstract T GetTargetValue(T originalValue, T targetValue);
+
+
+		public override void Stop()
+		{
+			// Always happens in one frame, so can't be interrupted.
+		}
 	}
 }

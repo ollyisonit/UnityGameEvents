@@ -10,6 +10,11 @@ namespace dninosores.UnityGameEvents
 		public bool fastForward;
 		protected override bool InstantInternal => true;
 
+		public override void Stop()
+		{
+			// Happens in one frame, so can't be interrupted.
+		}
+
 		protected override IEnumerator RunInternal()
 		{
 			if (fastForward)
