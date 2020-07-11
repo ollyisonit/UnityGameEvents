@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using dninosores.UnityAccessors;
+using System.Collections;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -104,6 +105,7 @@ namespace dninosores.UnityGameEvents
 			InProgress = false;
 			waitForCompletion = true;
 			playOnStart = false;
+			ResetAccessors.Reset(this, gameObject);
 		}
 
 

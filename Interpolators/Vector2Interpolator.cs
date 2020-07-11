@@ -8,12 +8,12 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class Vector2Interpolator : AbstractVector2Interpolator
 	{
-		public AnyVector2Accessor value;
-		protected override Accessor<Vector2> interpolatedValue => value;
+		public AnyVector2Accessor Value;
+		protected override Accessor<Vector2> interpolatedValue => Value;
 
 		protected override void Reset()
 		{
-			value = new AnyVector2Accessor();
+			Value = new AnyVector2Accessor();
 			base.Reset();
 		}
 	}
