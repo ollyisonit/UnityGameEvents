@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using dninosores.UnityAccessors;
+using System.Collections;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -8,8 +9,8 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class WaitSeconds : GameEvent
 	{
-		public float time;
-		protected override bool InstantInternal => time == 0;
+		public FloatOrConstantAccessor time;
+		protected override bool InstantInternal => time.Value == 0;
 
 		private bool cancelled;
 
@@ -20,7 +21,7 @@ namespace dninosores.UnityGameEvents
 
 		protected override IEnumerator RunInternal()
 		{
-			float t = time;
+			float t = time.Value;
 			cancelled = false;
 			while (t > 0 && !cancelled)
 			{

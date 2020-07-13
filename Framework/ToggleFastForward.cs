@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using dninosores.UnityAccessors;
 
 namespace dninosores.UnityGameEvents
 {
@@ -7,11 +7,11 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class ToggleFastForward : InstantGameEvent
 	{
-		public bool fastForward;
+		public BoolOrConstantAccessor fastForward;
 
 		protected override void InstantEvent()
 		{
-			if (fastForward)
+			if (fastForward.Value)
 			{
 				StartFastForward();
 			}

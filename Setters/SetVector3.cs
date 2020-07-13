@@ -1,4 +1,5 @@
-﻿using dninosores.UnityAccessors;
+﻿#pragma warning disable 0649
+using dninosores.UnityAccessors;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -9,7 +10,10 @@ namespace dninosores.UnityGameEvents
 	class SetVector3 : AddMultiplySetValueEvent<Vector3>
 	{
 		public AnyVector3Accessor accessor;
+		public Vector3OrConstantAccessor Value;
 		protected override Accessor<Vector3> valueAccessor => accessor;
+
+		protected override Vector3 value => Value.Value;
 
 		protected override void Reset()
 		{

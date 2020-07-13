@@ -1,4 +1,5 @@
 ﻿using dninosores.UnityAccessors;
+using dninosores.UnityEditorAttributes;
 
 namespace dninosores.UnityGameEvents
 {
@@ -7,8 +8,15 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class FloatInterpolator : AbstractFloatInterpolator
 	{
+		[ConditionalHide("overrideStart", true)]
+		public FloatOrConstantAccessor StartVal;
+		public FloatOrConstantAccessor End;
 		public AnyFloatAccessor value;
 		protected override Accessor<float> interpolatedValue => value;
+
+		protected override float start => StartVal.Value;
+
+		protected override float end => End.Value;
 
 		protected override void Reset()
 		{

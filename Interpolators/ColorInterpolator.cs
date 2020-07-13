@@ -1,4 +1,5 @@
 ﻿using dninosores.UnityAccessors;
+using dninosores.UnityEditorAttributes;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -8,8 +9,17 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class ColorInterpolator : AbstractColorInterpolator
 	{
+		[ConditionalHide("overrideStart", true)]
+		public ColorOrConstantAccessor StartVal;
+		public ColorOrConstantAccessor End;
 		public AnyColorAccessor value;
+		protected override Color start => StartVal.Value;
+
+		protected override Color end => End.Value;
+
 		protected override Accessor<Color> interpolatedValue => value;
+
+		
 
 		protected override void Reset()
 		{

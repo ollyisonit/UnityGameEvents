@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using dninosores.UnityAccessors;
+using System.Collections;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -10,8 +11,16 @@ namespace dninosores.UnityGameEvents
 	public abstract class InstantGameEvent : GameEvent
 	{
 		protected override bool InstantInternal => true;
-		public float delay = 0;
+		public FloatOrConstantAccessor delay;
 		private bool cancelled;
+
+
+		protected override void Reset()
+		{
+			base.Reset();
+			delay.Value = 0;
+		}
+
 
 		public override void Stop()
 		{
@@ -22,7 +31,7 @@ namespace dninosores.UnityGameEvents
 		{
 			cancelled = false;
 			InstantEvent();
-			float time = delay;
+			float time = delay.Value;
 			while (time > 0 && !cancelled)
 			{
 				yield return null;

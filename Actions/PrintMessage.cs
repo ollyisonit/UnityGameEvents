@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using dninosores.UnityAccessors;
+using UnityEngine;
 
 namespace dninosores.UnityGameEvents
 {
@@ -7,10 +8,11 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class PrintMessage : InstantGameEvent
 	{
-		public string message;
+		public StringOrConstantAccessor message;
+
 		protected override void InstantEvent()
 		{
-			Debug.Log(message);
+			Debug.Log(message.Value);
 		}
 	}
 }

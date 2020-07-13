@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace dninosores.UnityGameEvents
 {
-	public class AddMultiplySetValueEvent<T> : SetValueEvent<T>
+	public abstract class AddMultiplySetValueEvent<T> : SetValueEvent<T>
 	{
 		public enum WriteMode
 		{

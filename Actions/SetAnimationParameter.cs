@@ -1,4 +1,5 @@
-﻿using dninosores.UnityEditorAttributes;
+﻿using dninosores.UnityAccessors;
+using dninosores.UnityEditorAttributes;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -18,17 +19,17 @@ namespace dninosores.UnityGameEvents
 			Integer = 3
 		}
 		public Animator animator;
-		public string parameterName;
+		public StringOrConstantAccessor parameterName;
 		public ParameterType parameterType;
 
 		[ConditionalHide("parameterType", ParameterType.Bool)]
-		public bool boolValue;
+		public BoolOrConstantAccessor boolValue;
 
 		[ConditionalHide("parameterType", ParameterType.Float)]
-		public float floatValue;
+		public FloatOrConstantAccessor floatValue;
 
 		[ConditionalHide("parameterType", ParameterType.Integer)]
-		public int integerValue;
+		public IntOrConstantAccessor integerValue;
 
 
 		protected override void InstantEvent()
@@ -36,16 +37,16 @@ namespace dninosores.UnityGameEvents
 			switch (parameterType)
 			{
 				case ParameterType.Trigger:
-					animator.SetTrigger(parameterName);
+					animator.SetTrigger(parameterName.Value);
 					break;
 				case ParameterType.Bool:
-					animator.SetBool(parameterName, boolValue);
+					animator.SetBool(parameterName.Value, boolValue.Value);
 					break;
 				case ParameterType.Float:
-					animator.SetFloat(parameterName, floatValue);
+					animator.SetFloat(parameterName.Value, floatValue.Value);
 					break;
 				case ParameterType.Integer:
-					animator.SetInteger(parameterName, integerValue);
+					animator.SetInteger(parameterName.Value, integerValue.Value);
 					break;
 				default:
 					throw new NotImplementedException("Case not found for " + parameterType);

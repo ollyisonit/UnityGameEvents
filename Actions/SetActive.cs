@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using dninosores.UnityAccessors;
+using System.Collections;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -9,10 +10,10 @@ namespace dninosores.UnityGameEvents
 	public class SetActive : InstantGameEvent
 	{
 		public GameObject GameObject;
-		public bool active;
+		public BoolOrConstantAccessor active;
 		protected override void InstantEvent()
 		{
-			GameObject.SetActive(active);
+			GameObject.SetActive(active.Value);
 		}
 	}
 }

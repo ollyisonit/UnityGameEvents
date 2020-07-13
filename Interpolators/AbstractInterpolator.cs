@@ -16,7 +16,9 @@ namespace dninosores.UnityGameEvents
 		/// <summary>
 		/// Should the interpolation happen relative to the object's starting value or set the value absolutely?
 		/// </summary>
+		[Header("Curve Settings")]
 		public bool relative;
+
 		public enum RelativeMode
 		{
 			Add = 0,
@@ -25,19 +27,26 @@ namespace dninosores.UnityGameEvents
 		[ConditionalHide("relative", true)]
 		public RelativeMode relativeMode;
 		/// <summary>
-		/// Should the interpolation override the current value of the object being interpolated with a new starting value?
+		/// Should interpolation read end value once or re-read it every frame?
 		/// </summary>
-		[Header("Curve Settings")]
-		public bool overrideStart;
+		[Tooltip("Check this box if the end value of the interpolation shouldn't change over time (for example, if the end value is random or stationary).")]
+		public bool FreezeEnd;
+
 		/// <summary>
 		/// Start value for interpolation.
 		/// </summary>
-		[ConditionalHide("overrideStart", true)]
-		public T start;
+		protected abstract T start
+		{
+			get;
+		}
 		/// <summary>
 		/// End value for interpolation.
 		/// </summary>
-		public T end;
+		protected abstract T end
+		{
+			get;
+		}
+
 		/// <summary>
 		/// Curve to use for easing interpolation.
 		/// </summary>
@@ -46,7 +55,10 @@ namespace dninosores.UnityGameEvents
 		/// How many seconds the interpolation should take.
 		/// </summary>
 		public float time;
-
+		/// <summary>
+		/// Should the interpolation override the current value of the object being interpolated with a new starting value?
+		/// </summary>
+		public bool overrideStart;
 		/// <summary>
 		/// Has the interpolation been cancelled?
 		/// </summary>
@@ -69,6 +81,8 @@ namespace dninosores.UnityGameEvents
 			curve = AnimationCurve.Linear(0, 0, 1, 1);
 			time = 1;
 			overrideStart = false;
+			ResetAccessors.Reset(this, gameObject);
+			FreezeEnd = true;
 		}
 
 
@@ -110,27 +124,30 @@ namespace dninosores.UnityGameEvents
 			float t = 0;
 			T originalValue = interpolatedValue.GetValue();
 
+			T overriddenStart = start;
+			T frozenEnd = end;
+
 			if (!overrideStart)
 			{
 				if (relative)
 				{
-					start = default;
+					overriddenStart = default;
 				}
 				else
 				{
-					start = interpolatedValue.GetValue();
+					overriddenStart = interpolatedValue.GetValue();
 				}
 			}
 
 			while (t < time && !cancelled)
 			{
-				SetInterpolatedValue(originalValue, Interpolate(start, end, curve.Evaluate(t / time)));
+				SetInterpolatedValue(originalValue, Interpolate(overriddenStart, FreezeEnd ? frozenEnd : end, curve.Evaluate(t / time)));
 				yield return null;
 				t += Time.deltaTime;
 			}
 			if (!cancelled)
 			{
-				SetInterpolatedValue(originalValue, Interpolate(start, end, curve.Evaluate(1)));
+				SetInterpolatedValue(originalValue, Interpolate(overriddenStart, FreezeEnd ? frozenEnd : end, curve.Evaluate(1)));
 			}
 		}
 

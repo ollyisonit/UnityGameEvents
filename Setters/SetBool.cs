@@ -1,4 +1,5 @@
-﻿using dninosores.UnityAccessors;
+﻿#pragma warning disable 0649
+using dninosores.UnityAccessors;
 
 namespace dninosores.UnityGameEvents
 {
@@ -8,7 +9,10 @@ namespace dninosores.UnityGameEvents
 	class SetBool : NegatableSetValueEvent<bool>
 	{
 		public AnyBoolAccessor accessor;
+		public BoolOrConstantAccessor Value;
 		protected override Accessor<bool> valueAccessor => accessor;
+
+		protected override bool value => Value.Value;
 
 		protected override bool Negate(bool obj)
 		{
@@ -17,6 +21,7 @@ namespace dninosores.UnityGameEvents
 
 		protected override void Reset()
 		{
+			base.Reset();
 			accessor = new AnyBoolAccessor();
 			accessor.Reset(gameObject);
 		}

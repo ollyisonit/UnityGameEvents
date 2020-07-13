@@ -1,4 +1,5 @@
-﻿using dninosores.UnityAccessors;
+﻿#pragma warning disable 0649
+using dninosores.UnityAccessors;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -9,7 +10,10 @@ namespace dninosores.UnityGameEvents
 	class SetColor : AddMultiplySetValueEvent<Color>
 	{
 		public AnyColorAccessor accessor;
+		public ColorOrConstantAccessor Value;
 		protected override Accessor<Color> valueAccessor => accessor;
+
+		protected override Color value => Value.Value;
 
 		protected override void Reset()
 		{

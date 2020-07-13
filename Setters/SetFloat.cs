@@ -1,4 +1,5 @@
-﻿using dninosores.UnityAccessors;
+﻿#pragma warning disable 0649
+using dninosores.UnityAccessors;
 
 namespace dninosores.UnityGameEvents
 {
@@ -8,7 +9,10 @@ namespace dninosores.UnityGameEvents
 	class SetFloat : AddMultiplySetValueEvent<float>
 	{
 		public AnyFloatAccessor accessor;
+		public FloatOrConstantAccessor Value;
 		protected override Accessor<float> valueAccessor => accessor;
+
+		protected override float value => Value.Value;
 
 		protected override void Reset()
 		{

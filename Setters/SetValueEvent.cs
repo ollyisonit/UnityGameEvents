@@ -8,7 +8,14 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public abstract class SetValueEvent<T> : InstantGameEvent
 	{
-		public T value;
+		/// <summary>
+		/// Value to set accessor to.
+		/// </summary>
+		protected abstract T value { get; }
+
+		/// <summary>
+		/// Accessor whose value will be set
+		/// </summary>
 		protected abstract Accessor<T> valueAccessor
 		{
 			get;

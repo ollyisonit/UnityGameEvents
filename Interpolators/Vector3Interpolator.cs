@@ -1,4 +1,5 @@
 ﻿using dninosores.UnityAccessors;
+using dninosores.UnityEditorAttributes;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -8,9 +9,15 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class Vector3Interpolator : AbstractVector3Interpolator
 	{
+		[ConditionalHide("overrideStart", true)]
+		public Vector3OrConstantAccessor StartVal;
+		public Vector3OrConstantAccessor End;
 		public AnyVector3Accessor value;
 		protected override Accessor<Vector3> interpolatedValue => value;
 
+		protected override Vector3 start => StartVal.Value;
+
+		protected override Vector3 end => End.Value;
 
 		protected override void Reset()
 		{

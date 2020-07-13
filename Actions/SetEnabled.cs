@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using dninosores.UnityAccessors;
+using System.Collections;
 using UnityEngine;
 
 namespace dninosores.UnityGameEvents
@@ -9,10 +10,10 @@ namespace dninosores.UnityGameEvents
 	public class SetEnabled : InstantGameEvent
 	{
 		public Behaviour behaviour;
-		public bool Enabled;
+		public BoolOrConstantAccessor Enabled;
 		protected override void InstantEvent()
 		{
-			behaviour.enabled = Enabled;
+			behaviour.enabled = Enabled.Value;
 		}
 	}
 }

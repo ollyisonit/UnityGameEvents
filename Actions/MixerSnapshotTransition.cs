@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using dninosores.UnityAccessors;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -11,7 +12,7 @@ namespace dninosores.UnityGameEvents
 	{
 		protected override bool InstantInternal => throw new System.NotImplementedException();
 		public AudioMixerSnapshot snapshot;
-		public float transitionTime;
+		public FloatOrConstantAccessor transitionTime;
 
 		public override void Stop()
 		{
@@ -20,8 +21,8 @@ namespace dninosores.UnityGameEvents
 
 		protected override IEnumerator RunInternal()
 		{
-			snapshot.TransitionTo(transitionTime);
-			yield return new WaitForSeconds(transitionTime);
+			snapshot.TransitionTo(transitionTime.Value);
+			yield return new WaitForSeconds(transitionTime.Value);
 		}
 	}
 }
