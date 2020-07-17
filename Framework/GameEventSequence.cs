@@ -46,6 +46,7 @@ namespace dninosores.UnityGameEvents
 			Complete = 2
 		}
 
+		[Tooltip("Which children should be included in the GameEvent sequence.")]
 		public RecursionMode recursionMode;
 
 		protected override bool InstantInternal => GetContainedEvents().All(e => e.Instant);

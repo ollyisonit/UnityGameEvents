@@ -8,7 +8,7 @@ using UnityEngine;
 namespace dninosores.UnityGameEvents
 {
 	/// <summary>
-	/// Runs GameEvents in children 
+	/// Runs GameEvents in children simultaneously.
 	/// </summary>
 	public class GameEventParallel : GameEvent
 	{
