@@ -5,7 +5,7 @@ using System.Collections;
 using System.Reflection;
 using UnityEngine;
 
-namespace dninosores.UnityGameEvent
+namespace dninosores.UnityGameEvents
 {
 	/// <summary>
 	/// Uses reflections to call a method or run a coroutine by name.
