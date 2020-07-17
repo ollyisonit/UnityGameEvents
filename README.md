@@ -9,6 +9,7 @@ A framework for organizing and executing events in Unity.
 - Set or interpolate almost any value in the Unity editor
 - Integrates easily with existing projects: you can call any no-argument method or coroutine on any object by name
 - GameEvents attach to objects in the Unity editor and can be reordered with drag-and-drop
+- Custom GameEvent create menu
 - Easy-to-implement framework for creating your own custom GameEvents, GameEventTriggers, and more
 
 ## What is a GameEvent?
