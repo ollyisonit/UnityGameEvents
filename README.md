@@ -10,10 +10,11 @@ A framework for organizing and executing events in Unity.
 - Integrates easily with existing projects: you can call any no-argument method or coroutine on any object by name
 - GameEvents attach to objects in the Unity editor and can be reordered with drag-and-drop
 - Custom GameEvent create menu
+- Turn GameEvents on and off by enabling them in-editor
 - Easy-to-implement framework for creating your own custom GameEvents, GameEventTriggers, and more
 
 ## What is a GameEvent?
-A GameEvent is an action that is attached to an object in the Unity editor. It can either be executed instantly or take place over multiple frames. This library comes with a variety of GameEvents to execute frequently used actions, such as enabling and disabling objects, setting animation triggers, and loading scenes.
+A GameEvent is an action that is attached to an object in the Unity editor. It can either be executed instantly or take place over multiple frames. This library comes with a variety of GameEvents to execute frequently used actions, such as enabling and disabling objects, setting animation triggers, and loading scenes. GameEvents will only execute if they are active in-editor; inactive GameEvents will be automatically skipped over.
 
 ## How to use GameEvents
 In order to use a GameEvent, you need to attach it to a GameObject. Then, you need to create a GameEventTrigger, which will tell the GameEvent when to execute. You can also use parallel and sequence events to execute a series of events in order based on how they're organized in the editor.
