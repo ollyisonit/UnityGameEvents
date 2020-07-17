@@ -6,7 +6,7 @@ A framework for organizing and executing events in Unity.
 - Run groups of GameEvents in order or simultaneously
 - Fast-forwarding feature allows you to skip directly to the part of your game you're working on
 - Support for commonly executed Unity actions
-- Integrates easily with existing projects: you can call any no-argument method or coroutine by name
+- Integrates easily with existing projects: you can call any no-argument method or coroutine on any object by name
 - GameEvents attach to objects in the Unity editor and can be reordered with drag-and-drop
 - Easy-to-implement framework for creating your own custom GameEvents, GameEventTriggers, and more
 
