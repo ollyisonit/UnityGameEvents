@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -68,7 +69,14 @@ namespace dninosores.UnityGameEvents
 				{
 					if (e.Instant)
 					{
-						e.RunInstant();
+						try
+						{
+							e.RunInstant();
+						} catch (Exception err)
+						{
+							Debug.LogError("Error on " + e.GetType().Name + ": \n" + err.Message, e);
+						}
+						
 					}
 					else
 					{
