@@ -48,6 +48,14 @@ namespace dninosores.UnityGameEvents
 		private List<GameEvent> currentlyRunning;
 		private List<InternalSequence> currentlyRunningSequences;
 
+
+		protected override void Reset()
+		{
+			base.Reset();
+			mode = ParallelMode.InChildren;
+		}
+
+
 		protected override bool InstantInternal
 		{
 			get
