@@ -39,13 +39,6 @@ namespace dninosores.UnityGameEvents
 			return childEvents;
 		}
 
-		public enum RecursionMode
-		{
-			OnlyIfEmpty = 0,
-			TopLevelOnly = 1,
-			Complete = 2
-		}
-
 		[Tooltip("Which children should be included in the GameEvent sequence.")]
 		public RecursionMode recursionMode;
 

@@ -20,7 +20,7 @@ namespace dninosores.UnityGameEvents
 
 		public ParallelMode mode;
 		[ConditionalHide("mode", ParallelMode.InChildren)]
-		public GameEventSequence.RecursionMode recursionMode;
+		public RecursionMode recursionMode;
 
 
 		/// <summary>
