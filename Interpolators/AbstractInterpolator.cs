@@ -77,11 +77,9 @@ namespace dninosores.UnityGameEvents
 		protected override void Reset()
 		{
 			base.Reset();
-			interpolatedValue.Reset(gameObject);
 			curve = AnimationCurve.Linear(0, 0, 1, 1);
 			time = 1;
 			overrideStart = false;
-			ResetAccessors.Reset(this, gameObject);
 			FreezeEnd = true;
 		}
 

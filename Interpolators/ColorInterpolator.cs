@@ -18,13 +18,5 @@ namespace dninosores.UnityGameEvents
 		protected override Color end => End.Value;
 
 		protected override Accessor<Color> interpolatedValue => value;
-
-		
-
-		protected override void Reset()
-		{
-			value = new AnyColorAccessor();
-			base.Reset();
-		}
 	}
 }

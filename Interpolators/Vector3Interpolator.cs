@@ -19,10 +19,5 @@ namespace dninosores.UnityGameEvents
 
 		protected override Vector3 end => End.Value;
 
-		protected override void Reset()
-		{
-			value = new AnyVector3Accessor();
-			base.Reset();
-		}
 	}
 }

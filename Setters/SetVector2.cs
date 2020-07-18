@@ -16,12 +16,6 @@ namespace dninosores.UnityGameEvents
 
 		protected override Vector2 value => Value.Value;
 
-		protected override void Reset()
-		{
-			base.Reset();
-			accessor = new AnyVector2Accessor();
-			accessor.Reset(gameObject);
-		}
 
 		protected override Vector2 Multiply(Vector2 a, Vector2 b)
 		{

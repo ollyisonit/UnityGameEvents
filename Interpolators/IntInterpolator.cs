@@ -17,11 +17,5 @@ namespace dninosores.UnityGameEvents
 		protected override int start => StartVal.Value;
 
 		protected override int end => End.Value;
-
-		protected override void Reset()
-		{
-			value = new AnyIntAccessor();
-			base.Reset();
-		}
 	}
 }

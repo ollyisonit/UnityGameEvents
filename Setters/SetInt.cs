@@ -13,12 +13,5 @@ namespace dninosores.UnityGameEvents
 		protected override Accessor<int> valueAccessor => accessor;
 
 		protected override int value => Value.Value;
-
-		protected override void Reset()
-		{
-			base.Reset();
-			accessor = new AnyIntAccessor();
-			accessor.Reset(gameObject);
-		}
 	}
 }

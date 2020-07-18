@@ -97,7 +97,7 @@ namespace dninosores.UnityGameEvents
 
 
 		/// <summary>
-		/// Resets fields back to default values. Don't forget to call base.Reset() in your override!
+		/// Resets fields back to default values. Automatically resets all Accessors. Don't forget to call base.Reset() in your override!
 		/// </summary>
 		protected virtual void Reset()
 		{
@@ -105,7 +105,7 @@ namespace dninosores.UnityGameEvents
 			InProgress = false;
 			waitForCompletion = true;
 			playOnStart = false;
-			ResetAccessors.Reset(this, gameObject);
+			ResetAccessors.Reset(this, this);
 		}
 
 

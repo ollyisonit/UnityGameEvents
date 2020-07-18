@@ -18,10 +18,5 @@ namespace dninosores.UnityGameEvents
 
 		protected override float end => End.Value;
 
-		protected override void Reset()
-		{
-			value = new AnyFloatAccessor();
-			base.Reset();
-		}
 	}
 }

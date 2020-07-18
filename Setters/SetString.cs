@@ -19,11 +19,5 @@ namespace dninosores.UnityGameEvents
 			return first + second;
 		}
 
-		protected override void Reset()
-		{
-			base.Reset();
-			accessor = new AnyStringAccessor();
-			accessor.Reset(gameObject);
-		}
 	}
 }

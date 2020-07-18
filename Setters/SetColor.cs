@@ -15,13 +15,6 @@ namespace dninosores.UnityGameEvents
 
 		protected override Color value => Value.Value;
 
-		protected override void Reset()
-		{
-			base.Reset();
-			accessor = new AnyColorAccessor();
-			accessor.Reset(gameObject);
-		}
-
 
 		protected override Color Multiply(Color a, Color b)
 		{
