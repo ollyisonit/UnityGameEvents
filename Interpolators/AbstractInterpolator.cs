@@ -122,7 +122,7 @@ namespace dninosores.UnityGameEvents
 		{
 			cancelled = false;
 			float t = 0;
-			T originalValue = interpolatedValue.GetValue();
+			T originalValue = interpolatedValue.Value;
 
 			T overriddenStart = start;
 			T frozenEnd = end;
@@ -135,7 +135,7 @@ namespace dninosores.UnityGameEvents
 				}
 				else
 				{
-					overriddenStart = interpolatedValue.GetValue();
+					overriddenStart = interpolatedValue.Value;
 				}
 			}
 

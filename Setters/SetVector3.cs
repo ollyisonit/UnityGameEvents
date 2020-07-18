@@ -17,6 +17,7 @@ namespace dninosores.UnityGameEvents
 
 		protected override void Reset()
 		{
+			base.Reset();
 			accessor = new AnyVector3Accessor();
 			accessor.Reset(gameObject);
 		}
