@@ -6,7 +6,7 @@ namespace dninosores.UnityGameEvents
 	/// <summary>
 	/// Sets a string value using an Accessor.
 	/// </summary>
-	class SetString : AppendableSetValueEvent<string>
+	public class SetString : AppendableSetValueEvent<string>
 	{
 		public AnyStringAccessor accessor;
 		public StringOrConstantAccessor Value;

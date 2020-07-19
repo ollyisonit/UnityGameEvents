@@ -6,7 +6,7 @@ namespace dninosores.UnityGameEvents
 	/// <summary>
 	/// Sets a bool value using an Accessor.
 	/// </summary>
-	class SetBool : NegatableSetValueEvent<bool>
+	public class SetBool : NegatableSetValueEvent<bool>
 	{
 		public AnyBoolAccessor accessor;
 		public BoolOrConstantAccessor Value;

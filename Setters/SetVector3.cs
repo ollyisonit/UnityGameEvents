@@ -7,7 +7,7 @@ namespace dninosores.UnityGameEvents
 	/// <summary>
 	/// Sets a Vector3 value using an Accessor.
 	/// </summary>
-	class SetVector3 : AddMultiplySetValueEvent<Vector3>
+	public class SetVector3 : AddMultiplySetValueEvent<Vector3>
 	{
 		public AnyVector3Accessor accessor;
 		public Vector3OrConstantAccessor Value;

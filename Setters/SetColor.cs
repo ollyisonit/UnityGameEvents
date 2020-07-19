@@ -7,7 +7,7 @@ namespace dninosores.UnityGameEvents
 	/// <summary>
 	/// Sets a Color value using an Accessor.
 	/// </summary>
-	class SetColor : AddMultiplySetValueEvent<Color>
+	public class SetColor : AddMultiplySetValueEvent<Color>
 	{
 		public AnyColorAccessor accessor;
 		public ColorOrConstantAccessor Value;
