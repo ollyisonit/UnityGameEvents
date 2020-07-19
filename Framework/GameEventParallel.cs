@@ -65,7 +65,7 @@ namespace dninosores.UnityGameEvents
 					case ParallelMode.OnSelf:
 						return GameEventSequence.GetAttachedEvents(this).All(e => e.Instant);
 					case ParallelMode.InChildren:
-						return GameEventSequence.GetChildEvents(transform, recursionMode).All(e => e.Instant);
+						return GameEventSequence.GetChildEvents(transform, RecursionMode.OnlyIfEmpty).All(e => e.Instant);
 					default:
 						throw new NotImplementedException("Case not found for " + mode);
 				}
@@ -88,6 +88,7 @@ namespace dninosores.UnityGameEvents
 							recursionMode));
 						InternalSequence sequence = child.gameObject.AddComponent<InternalSequence>();
 						sequence.GameEvents = events;
+						sequence.recursionMode = recursionMode;
 						sequence.SetFastForward(base.fastForwarding);
 						sequences.Add(sequence);
 					}
@@ -147,6 +148,11 @@ namespace dninosores.UnityGameEvents
 		}
 
 
+		/// <summary>
+		/// Runs a list of InternalSequences at same time and exits when they're all finished.
+		/// </summary>
+		/// <param name="events"></param>
+		/// <returns></returns>
 		private IEnumerator RunUntilCompletion(List<InternalSequence> events)
 		{
 			int finishedCount = 0;

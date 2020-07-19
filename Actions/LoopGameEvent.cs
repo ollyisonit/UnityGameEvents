@@ -1,5 +1,6 @@
 ﻿using dninosores.UnityAccessors;
 using System.Collections;
+using UnityEngine;
 
 namespace dninosores.UnityGameEvents
 {
@@ -15,6 +16,7 @@ namespace dninosores.UnityGameEvents
 		/// <summary>
 		/// Should the amount of times to run be recalcuated after each loop?
 		/// </summary>
+		[Tooltip("Should timesToRun be recalculated after each loop?")]
 		public bool dynamic;
 		/// <summary>
 		/// Number of times to loop gameEvent.
@@ -29,6 +31,14 @@ namespace dninosores.UnityGameEvents
 			cancelled = true;
 			gameEvent.Stop();
 		}
+
+
+		protected override void Reset()
+		{
+			base.Reset();
+			timesToRun.Value = 1;
+		}
+
 
 		protected override IEnumerator RunInternal()
 		{

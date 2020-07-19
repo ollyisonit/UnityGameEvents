@@ -13,6 +13,7 @@ namespace dninosores.UnityGameEvents
 	public class CallReflected : GameEvent
 	{
 		public UnityEngine.Object Object;
+		public FastForwardBehavior fastForwardBehavior;
 		public string methodName;
 		public Argument[] arguments;
 
@@ -152,6 +153,21 @@ namespace dninosores.UnityGameEvents
 			return finalObject;
 		}
 
+
+		public override void ForceRunInstant()
+		{
+			switch (fastForwardBehavior)
+			{
+				case FastForwardBehavior.RunInstant:
+					base.ForceRunInstant();
+					break;
+				case FastForwardBehavior.Skip:
+					break;
+				case FastForwardBehavior.StartParallel:
+					StartCoroutine(Run());
+					break;
+			}
+		}
 
 		object GetFieldOrProperty(object declaring, string name)
 		{

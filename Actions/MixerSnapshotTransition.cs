@@ -10,7 +10,7 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public class MixerSnapshotTransition : GameEvent
 	{
-		protected override bool InstantInternal => throw new System.NotImplementedException();
+		protected override bool InstantInternal => transitionTime.Value == 0;
 		public AudioMixerSnapshot snapshot;
 		public FloatOrConstantAccessor transitionTime;
 

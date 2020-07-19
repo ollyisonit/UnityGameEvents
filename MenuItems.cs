@@ -124,7 +124,7 @@ namespace dninosores.UnityGameEvents
 		[MenuItem(auddir + "Change Audio Playback", false, 10)]
 		public static void AudioPlayback(MenuCommand m)
 		{
-			Create<ChangeAudioPlayback>(m);
+			Create<AudioPlayback>(m);
 		}
 
 		[MenuItem(auddir + "Mixer Snapshot Transition", false, 10)]

@@ -10,7 +10,7 @@ namespace dninosores.UnityGameEvents
 	/// </summary>
 	public abstract class InstantGameEvent : GameEvent
 	{
-		protected override bool InstantInternal => true;
+		protected override bool InstantInternal => delay.Value == 0;
 		public FloatOrConstantAccessor delay;
 		private bool cancelled;
 

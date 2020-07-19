@@ -7,7 +7,7 @@ namespace dninosores.UnityGameEvents
 	/// <summary>
 	/// Plays, pauses, unpauses, or stops an AudioSource.
 	/// </summary>
-	public class ChangeAudioPlayback : InstantGameEvent
+	public class AudioPlayback : InstantGameEvent
 	{
 		public enum PlaybackAction
 		{

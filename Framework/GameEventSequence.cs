@@ -129,6 +129,11 @@ namespace dninosores.UnityGameEvents
 		{
 			List<GameEvent> events = new List<GameEvent>();
 
+			if (mode == RecursionMode.ParentOnly)
+			{
+				return events;
+			}
+
 			for (int i = 0; i < t.childCount; i++)
 			{
 				Transform child = t.GetChild(i);

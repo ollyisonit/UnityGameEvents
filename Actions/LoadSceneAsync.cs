@@ -48,6 +48,11 @@ namespace dninosores.UnityGameEvents
 
 		}
 
+		protected override void Reset()
+		{
+			base.Reset();
+			waitForCompletion = false;
+		}
 
 		public override void ForceRunInstant()
 		{

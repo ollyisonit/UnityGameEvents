@@ -7,6 +7,7 @@
 	{
 		OnlyIfEmpty = 0,
 		TopLevelOnly = 1,
-		Complete = 2
+		Complete = 2,
+		ParentOnly = 3
 	}
 }
