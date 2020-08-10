@@ -8,7 +8,7 @@ namespace dninosores.UnityGameEvents
 	/// <summary>
 	/// Plays audio clip from given audio source.
 	/// </summary>
-	public class PlayOneshot : InstantGameEvent
+	public class PlayOneShot : InstantGameEvent
 	{
 		public AudioClip clip;
 		FloatOrConstantAccessor volumeScale;

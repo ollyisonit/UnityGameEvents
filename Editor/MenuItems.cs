@@ -136,7 +136,7 @@ namespace dninosores.UnityGameEvents
 		[MenuItem(auddir + "Play Oneshot", false, 10)]
 		public static void PlayOne(MenuCommand m)
 		{
-			Create<PlayOneshot>(m);
+			Create<PlayOneShot>(m);
 		}
 
 		[MenuItem(animdir + "Set Animation Parameter", false, 10)]
